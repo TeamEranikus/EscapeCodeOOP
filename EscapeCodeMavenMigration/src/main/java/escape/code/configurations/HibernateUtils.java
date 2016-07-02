@@ -1,6 +1,6 @@
 package escape.code.configurations;
 
-import escape.code.models.Item;
+import escape.code.models.Puzzle;
 import escape.code.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -46,9 +46,9 @@ public class HibernateUtils implements Serializable {
     private static Configuration getConfiguration() {
         Configuration cfg = new Configuration();
         cfg.addAnnotatedClass(User.class);
-        cfg.addAnnotatedClass(Item.class);
+        cfg.addAnnotatedClass(Puzzle.class);
         cfg.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        cfg.setProperty("hibernate.connection.url", "jdbc:mysql://localhost/escape_code");
+        cfg.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/escape_code");
         cfg.setProperty("hibernate.connection.username", "root");
         cfg.setProperty("hibernate.connection.password", "1234");
         cfg.setProperty("hibernate.show_sql", "true");

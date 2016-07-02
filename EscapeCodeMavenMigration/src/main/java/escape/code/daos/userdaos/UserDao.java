@@ -3,6 +3,6 @@ package escape.code.daos.userdaos;
 import escape.code.models.User;
 
 public interface UserDao {
-    User getUserByName(String username);
+    User getLogedUser(String username, String password);
     void create(User user);
 }

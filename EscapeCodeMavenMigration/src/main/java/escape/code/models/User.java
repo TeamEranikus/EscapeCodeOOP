@@ -12,7 +12,14 @@ public class User implements Serializable{
     private String name;
     private String password;
     private Long id;
-    private Long score;
+    private boolean hasKey;
+    private boolean hasBook;
+
+    @Id
+    @GeneratedValue()
+    public Long getId() {
+        return id;
+    }
 
     public User(){
     }
@@ -21,10 +28,24 @@ public class User implements Serializable{
         this.id = id;
     }
 
-    @Id
-    @GeneratedValue()
-    public Long getId() {
-        return id;
+    public boolean isHasBook() {
+        return hasBook;
+    }
+
+    public void setHasBook(boolean hasBook) {
+        this.hasBook = hasBook;
+    }
+
+    public boolean isHasKey() {
+        return hasKey;
+    }
+
+    public void setHasKey(boolean hasKey) {
+        this.hasKey = hasKey;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
@@ -37,13 +58,5 @@ public class User implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Long getScore() {
-        return score;
-    }
-
-    public void setScore(Long score) {
-        this.score = score;
     }
 }

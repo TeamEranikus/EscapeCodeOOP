@@ -40,7 +40,7 @@ public class PuzzlesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.puzzleImage.setImage(puzzle.getImage());
+        this.puzzleImage.setImage(new Image(puzzle.getImagePath()));
         centerImage();
         this.hintText.setText(puzzle.getHint());
         this.description.setText(puzzle.getQuestion());

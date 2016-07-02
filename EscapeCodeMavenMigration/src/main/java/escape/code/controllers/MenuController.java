@@ -49,6 +49,7 @@ public class MenuController {
         AnchorPane anchorPane = (AnchorPane)fxmlObjects.get("anchorPane");
         engine.loadRectanglesPuzzles(anchorPane);
         engine.loadRectanglesCollision(anchorPane);
+        engine.setCurrentLoadedStage(currentStage);
         engine.run(currentStage.getScene());
     }
 

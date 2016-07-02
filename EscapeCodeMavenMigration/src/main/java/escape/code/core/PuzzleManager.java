@@ -30,7 +30,8 @@ public class PuzzleManager {
             String answer = line[1];
             String hint = line[2];
             String nextClue = line[3];
-            Puzzle currentPuzzle = new Puzzle(description,answer, hint,puzzleImages.pop(), nextClue);
+            /*Puzzle currentPuzzle = new Puzzle(description,answer, hint,puzzleImages.pop(), nextClue);*/
+            Puzzle currentPuzzle = new Puzzle();
             this.puzzles.add(currentPuzzle);
         }
 
