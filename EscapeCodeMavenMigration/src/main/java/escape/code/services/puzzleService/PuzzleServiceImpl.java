@@ -4,9 +4,15 @@ import escape.code.daos.puzzledaos.PuzzleDao;
 import escape.code.daos.puzzledaos.PuzzleDaoImpl;
 import escape.code.models.Puzzle;
 
+import java.util.List;
+
 public class PuzzleServiceImpl implements PuzzleService {
 
-     private PuzzleDao puzzleDao = new PuzzleDaoImpl();
+     private static PuzzleDao puzzleDao;
+
+    static {
+        puzzleDao = new PuzzleDaoImpl();
+    }
 
 
     @Override
@@ -17,8 +23,12 @@ public class PuzzleServiceImpl implements PuzzleService {
         puzzle.setHint(params[2]);
         puzzle.setNextClue(params[3]);
         puzzle.setImagePath(params[4]);
-        puzzle.setLevelName(params[5]);
+        puzzle.setLevel(Integer.parseInt(params[5]));
+        puzzleDao.createPuzzle(puzzle);
+    }
 
-        this.puzzleDao.createPuzzle(puzzle);
+    @Override
+    public List<Puzzle> getAllByLevel(int level) {
+        return puzzleDao.getAllByLevel(level);
     }
 }

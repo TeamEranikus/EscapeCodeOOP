@@ -24,7 +24,6 @@ public class HibernateUtils implements Serializable {
             config.setSessionFactoryObserver(new SessionFactoryObserver() {
                 private static final long serialVersionUID = 1L;
 
-
                 public void sessionFactoryCreated(SessionFactory factory) {
 
                 }
@@ -53,7 +52,7 @@ public class HibernateUtils implements Serializable {
         cfg.setProperty("hibernate.connection.password", "1234");
         cfg.setProperty("hibernate.show_sql", "true");
         cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
-        cfg.setProperty("hibernate.hbm2ddl.auto", "create");
+        cfg.setProperty("hibernate.hbm2ddl.auto", "update");
         cfg.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
         cfg.setProperty("hibernate.current_session_context_class", "thread");
         return cfg;

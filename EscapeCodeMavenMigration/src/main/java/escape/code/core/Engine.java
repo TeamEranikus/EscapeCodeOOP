@@ -1,13 +1,13 @@
 package escape.code.core;
 
-import escape.code.controllers.PuzzlesController;
 import escape.code.models.Sprite;
-import escape.code.userInterface.Reader;
+import escape.code.models.User;
 import escape.code.utils.Constants;
-import javafx.animation.AnimationTimer;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
@@ -24,89 +24,86 @@ import java.util.stream.Collectors;
 public class Engine {
 
     private PuzzleManager puzzleManager;
-    private Reader reader;
     private HashMap<KeyCode, Boolean> keys;
     private LinkedList<Rectangle> rectangles;
     private ArrayList<Rectangle> rectCollision;
     private Rectangle currentPuzzle;
     private boolean hasCol = false;
     private boolean hasToSetPuzzle = true;
-    private AnimationTimer timeline;
     private Sprite sprite;
     private StageManager stageManager;
-    private PuzzlesController puzzlesController;
     private Stage currentLoadedStage;
+    private FXMLLoader loader;
+    private User user;
 
     private AudioClip iSound0, iSound1, iSound2, iSound3, iSoundBackground;
 
     private URL iAudioFile0, iAudioFile1, iAudioFile2, iAudioFile3, iAudioFileBackground;
-    public Engine(Sprite sprite) {
-        this.reader = new Reader();
-        this.puzzleManager = new PuzzleManager(reader);
+
+    public Engine(FXMLLoader loader, User user) {
+        this.loader = loader;
+        this.user = user;
+        this.initialize();
+    }
+
+    private void initialize() {
+        this.puzzleManager = new PuzzleManager();
         this.keys = new HashMap<>();
-        this.sprite = sprite;
         this.rectangles = new LinkedList<>();
         this.rectCollision = new ArrayList<>();
         this.stageManager = new StageManager();
-        this.puzzlesController = new PuzzlesController();
-    }
+        ImageView playerImage = (ImageView) this.loader.getNamespace().get("imagePlayer");
+        ResizableCanvas canvas = (ResizableCanvas) this.loader.getNamespace().get("mainCanvas");
+        this.sprite = new Sprite(playerImage, canvas);
+        this.loadRectanglesPuzzles();
+        this.loadRectanglesCollision();
 
-
-    public void run(Scene scene) throws IOException {
+        Scene scene = ((Pane) this.loader.getRoot()).getScene();
+        this.currentLoadedStage = (Stage) (scene.getWindow());
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
-        puzzleManager.load();
-
-
-        timeline = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-
-                updateSpriteCoordinates();
-                hasCol = checkForCol(currentPuzzle);
-
-                if (hasCol) {
-                    setCurrentPuzzle();
-                    sprite.getImageView().setLayoutX(480.0);
-                    sprite.getImageView().setLayoutY(300.0);
-
-                }
-                if (Constants.IS_ANSWER_CORRECT) {
-                    currentPuzzle.setVisible(false);
-                    currentPuzzle.setDisable(true);
-                    rectangles.removeFirst();
-                    currentPuzzle = getCurrentPuzzleRectangle();
-                    Constants.IS_ANSWER_CORRECT = false;
-                    hasToSetPuzzle = true;
-                }
-            }
-        };
-        timeline.start();
+        puzzleManager.load(user.getLevel());
     }
 
-    public Stage getCurrentLoadedStage() {
-        return currentLoadedStage;
+    public void play() throws IllegalStateException {
+        updateSpriteCoordinates();
+        hasCol = checkForCol(currentPuzzle);
+
+        if (hasCol) {
+            setCurrentPuzzle();
+
+            sprite.getImageView().setLayoutX(480.0);
+            sprite.getImageView().setLayoutY(300.0);
+
+        }
+        if (Constants.IS_ANSWER_CORRECT) {
+            currentPuzzle.setVisible(false);
+            currentPuzzle.setDisable(true);
+            rectangles.removeFirst();
+            currentPuzzle = getCurrentPuzzleRectangle();
+            Constants.IS_ANSWER_CORRECT = false;
+            hasToSetPuzzle = true;
+        }
     }
 
-    public void setCurrentLoadedStage(Stage currentLoadedStage) {
-        this.currentLoadedStage = currentLoadedStage;
-    }
 
-    private void setCurrentPuzzle() {
+    private void setCurrentPuzzle() throws IllegalStateException {
         if (!currentPuzzle.getId().contains("door")) {
             try {
                 if (hasToSetPuzzle) {
                     hasToSetPuzzle = false;
                     puzzleManager.setPuzzle();
+                    user.setHasBook(true);
+                    //TODO pop-up
                 }
                 stageManager.loadNewStage(Constants.PUZZLE_FXML_PATH);
                 keys.clear();
             } catch (IOException e) {
-                //TODO message error pop-up
+                e.printStackTrace();
             }
         } else {
-            timeline.stop();
-            stageManager.loadSceneToPrimaryStage(getCurrentLoadedStage(),Constants.MENU_FXML_PATH);
+            currentLoadedStage.close();
+            throw new IllegalStateException("STOP");
         }
     }
 
@@ -152,8 +149,9 @@ public class Engine {
         return keys.getOrDefault(key, false);
     }
 
-    public void loadRectanglesPuzzles(Pane pane) {
-        ObservableList<Node> listOfAllElements = pane.getChildren();
+    //TODO union
+    private void loadRectanglesPuzzles() {
+        ObservableList<Node> listOfAllElements = ((Pane) loader.getRoot()).getChildren();
         for (Node element : listOfAllElements) {
             if (element != null && element.getId().endsWith("Puzzle")) {
                 Rectangle current = (Rectangle) element;
@@ -168,8 +166,8 @@ public class Engine {
         currentPuzzle = getCurrentPuzzleRectangle();
     }
 
-    public void loadRectanglesCollision(Pane pane) {
-        ObservableList<Node> listOfAllElements = pane.getChildren();
+    private void loadRectanglesCollision() {
+        ObservableList<Node> listOfAllElements = ((Pane) loader.getRoot()).getChildren();
         for (Node element : listOfAllElements) {
             if (element != null && element.getId().endsWith("Col")) {
                 Rectangle current = (Rectangle) element;

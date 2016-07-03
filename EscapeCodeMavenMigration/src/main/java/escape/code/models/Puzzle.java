@@ -15,16 +15,7 @@ public class Puzzle implements Serializable{
     private String hint;
     private String imagePath;
     private String nextClue;
-    private String levelName;
-
-
-    /*public Puzzle(String question, String correctAnswer, String hint, String imagePath, String nextClue) {
-        this.question = question;
-        this.correctAnswer = correctAnswer;
-        this.hint = hint;
-        this.image = new Image(getClass().getResourceAsStream(imagePath));
-        this.nextClue = nextClue;
-    }*/
+    private int level;
 
     public Puzzle(){
 
@@ -87,12 +78,12 @@ public class Puzzle implements Serializable{
         return false;
     }
 
-    public String getLevelName() {
-        return levelName;
+    public int getLevel() {
+        return level;
     }
 
-    public void setLevelName(String levelName) {
-        this.levelName = levelName;
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
 

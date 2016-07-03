@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,9 +28,10 @@ public class PuzzlesController implements Initializable {
     @FXML
     TextField userAnswer;
 
-    private static Puzzle puzzle;
+    @FXML
+    Button answerButton;
 
-    private Stage currentStage;
+    private static Puzzle puzzle;
 
 
     public static void setPuzzle(Puzzle puzzleToSet){
@@ -62,6 +62,7 @@ public class PuzzlesController implements Initializable {
             this.nextClue.setText(puzzle.getNextClue());
             this.nextClue.setVisible(true);
             Constants.IS_ANSWER_CORRECT = true;
+            this.answerButton.setDisable(true);
         }
         else{
             this.nextClue.setVisible(true);
@@ -70,6 +71,7 @@ public class PuzzlesController implements Initializable {
 
     private void centerImage() {
         Image image = puzzleImage.getImage();
+
         if (image != null) {
             double width = 0;
             double height = 0;

@@ -19,7 +19,7 @@ public class ExcaptionHandling {
 
     public static void warningDisplay(String message){
         alertStage = new Stage();
-        alertStage.initModality(Modality.APPLICATION_MODAL);
+        alertStage.initModality(Modality.WINDOW_MODAL);
         alertStage.setTitle(WARNING);
         alertStage.setMinWidth(800);
 

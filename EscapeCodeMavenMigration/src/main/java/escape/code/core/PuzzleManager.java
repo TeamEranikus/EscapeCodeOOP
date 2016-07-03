@@ -2,39 +2,26 @@ package escape.code.core;
 
 import escape.code.controllers.PuzzlesController;
 import escape.code.models.Puzzle;
-import escape.code.userInterface.Reader;
+import escape.code.services.puzzleService.PuzzleService;
+import escape.code.services.puzzleService.PuzzleServiceImpl;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 public class PuzzleManager {
 
     private LinkedList<Puzzle> puzzles;
-    private Reader reader;
+    private PuzzleService puzzleService;
 
 
-    public PuzzleManager(Reader reader) {
+    public PuzzleManager() {
         this.puzzles = new LinkedList<>();
-        this.reader = reader;
+        this.puzzleService = new PuzzleServiceImpl();
     }
 
-    public void load(){
-        LinkedList<String> puzzleImages = new LinkedList<String>(){{
-            add("/pictures/ComputerTaskWhite.png");
-            add("/pictures/PianoTask.jpg");
-            add("/pictures/LibraryWithJoker.jpg");
-        }};
-        LinkedList<String> puzzles = reader.readPuzzleFile();
-        for (String puzzle : puzzles) {
-            String[] line = puzzle.split("\\*\\*");
-            String description = line[0];
-            String answer = line[1];
-            String hint = line[2];
-            String nextClue = line[3];
-            /*Puzzle currentPuzzle = new Puzzle(description,answer, hint,puzzleImages.pop(), nextClue);*/
-            Puzzle currentPuzzle = new Puzzle();
-            this.puzzles.add(currentPuzzle);
-        }
-
+    public void load(int level){
+        this.puzzles = this.puzzleService.getAllByLevel(level).stream().
+                collect(Collectors.toCollection(LinkedList<Puzzle>::new));
     }
 
     public void setPuzzle(){
@@ -43,5 +30,4 @@ public class PuzzleManager {
             PuzzlesController.setPuzzle(puzzles.pop());
         }
     }
-
 }

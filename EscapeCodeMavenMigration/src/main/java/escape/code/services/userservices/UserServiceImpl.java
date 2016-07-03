@@ -6,7 +6,11 @@ import escape.code.models.User;
 
 public class UserServiceImpl implements UserService {
 
-    UserDao userDao = new UserDaoImpl();
+    private static UserDao userDao;
+
+    static {
+        userDao = new UserDaoImpl();
+    }
 
     @Override
     public void createUser(String username, String password) {
@@ -15,8 +19,14 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
         user.setHasBook(false);
         user.setHasKey(false);
+        user.setLevel(0);
         this.userDao.create(user);
 
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userDao.updateUser(user);
     }
 
     @Override

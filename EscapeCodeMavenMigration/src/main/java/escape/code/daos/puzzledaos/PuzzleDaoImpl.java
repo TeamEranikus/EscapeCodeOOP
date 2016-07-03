@@ -8,15 +8,17 @@ import org.hibernate.Session;
 import java.util.List;
 
 public class PuzzleDaoImpl implements PuzzleDao {
-
-    Session session = HibernateUtils.openSession();
+    private static Session session;
+    static {
+        session = HibernateUtils.openSession();
+    }
 
     @Override
-    public List<Puzzle> getAllByLevel(String levelName) {
+    public List<Puzzle> getAllByLevel(int level) {
         session.beginTransaction();
         Query query = session
-                .createQuery("SELECT pu FROM Puzzle AS pu where pu.levelName like :name");
-        query.setParameter("name",levelName);
+                .createQuery("SELECT pu FROM Puzzle AS pu where pu.level like :level");
+        query.setParameter("level",level);
 
         List<Puzzle> allPuzzle = query.list();
         session.getTransaction().commit();

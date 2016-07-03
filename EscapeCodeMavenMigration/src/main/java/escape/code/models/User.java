@@ -14,6 +14,7 @@ public class User implements Serializable{
     private Long id;
     private boolean hasKey;
     private boolean hasBook;
+    private int level;
 
     @Id
     @GeneratedValue()
@@ -58,5 +59,13 @@ public class User implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

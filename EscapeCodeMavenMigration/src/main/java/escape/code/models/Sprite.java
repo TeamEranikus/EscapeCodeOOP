@@ -2,8 +2,6 @@ package escape.code.models;
 
 import escape.code.core.ResizableCanvas;
 import escape.code.utils.Constants;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -13,37 +11,15 @@ public class Sprite {
     private final Image LEFT_IMAGE_VIEW = new Image(getClass().getResource(Constants.SPRITE_IMAGE_LEFT_PATH).toExternalForm());
 
     private ImageView imageView;
-    private double positionX;
-    private double positionY;
-    private double width;
     private ResizableCanvas currentCanvas;
-    private double height;
 
     public ImageView getImageView() {
         return imageView;
     }
 
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
-    }
-
     public Sprite(ImageView image, ResizableCanvas canvas) {
         this.imageView = image;
         this.currentCanvas = canvas;
-    }
-
-    public double getPositionX() {
-        return positionX;
-    }
-
-    public double getPositionY() {
-        return positionY;
-    }
-
-    public void setPosition(double x, double y) {
-        positionX = x;
-        positionY = y;
-
     }
 
     public void moveX(int x) {
@@ -90,17 +66,5 @@ public class Sprite {
 
             }
         }
-    }
-
-    public void render(GraphicsContext gc) {
-        //gc.drawImage(image, positionX, positionY);
-    }
-
-    public Rectangle2D getBoundary() {
-        return new Rectangle2D(positionX, positionY, width, height);
-    }
-
-    public boolean checkCollision(Sprite spr) {
-        return spr.getBoundary().intersects(this.getBoundary());
     }
 }

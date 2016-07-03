@@ -14,37 +14,6 @@ import java.io.IOException;
 
 public class StageManager {
     private AnchorPane root;
-
-    public void setPrimaryStage(Stage primaryStage, String fxmlPath) throws IOException {
-        primaryStage.setTitle(Constants.TITLE);
-        root = FXMLLoader.load(getClass().getResource(fxmlPath));
-        Region contentRootRegion = (Region) FXMLLoader.load(getClass().getResource(fxmlPath));
-        double origW = Constants.FULL_HD_WIDTH;
-        double origH = Constants.FULL_HD_HIGH;
-
-        if (contentRootRegion.getPrefWidth() == Region.USE_COMPUTED_SIZE) {
-            contentRootRegion.setPrefWidth(origW);
-        } else {
-            origW = contentRootRegion.getPrefWidth();
-        }
-
-        if (contentRootRegion.getPrefHeight() == Region.USE_COMPUTED_SIZE) {
-            contentRootRegion.setPrefHeight(origH);
-        } else {
-            origH = contentRootRegion.getPrefHeight();
-        }
-        Group group = new Group(contentRootRegion);
-        StackPane rootPane = new StackPane();
-        rootPane.getChildren().add(group);
-        Scene scene = new Scene(rootPane, origW, origH);
-        group.scaleXProperty().bind(scene.widthProperty().divide(origW));
-        group.scaleYProperty().bind(scene.heightProperty().divide(origH));
-        // primaryStage.setResizable(false);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        primaryStage.centerOnScreen();
-    }
-
     public FXMLLoader loadSceneToPrimaryStage(Stage currentStage, String fxmlPath) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
         try {
