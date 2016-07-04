@@ -36,15 +36,16 @@ public class Game {
                 try {
                     engine.play();
                 } catch (IllegalStateException e) {
-                    timeline.stop();
-                    try {
-                        user.setLevel(user.getLevel() + 1);
+                    //timeline.stop();
+//                   try {
+                        user.setLevel((user.getLevel() + 1)%2);
                         //TODO pop - up to ask do you want to continue
-                        stageManager.loadNewStage(Level.getByNum(user.getLevel()).getPath());
+                        fxmlLoader = stageManager.loadSceneToPrimaryStage(currentStage,Level.getByNum(user.getLevel()).getPath());
                         userService.updateUser(user);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
+                        engine = new Engine(fxmlLoader,user);
+//                    }
+                }catch (NullPointerException ex) {
+                    timeline.stop();
                 }
             }
         };

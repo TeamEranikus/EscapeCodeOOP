@@ -153,6 +153,7 @@ public class Engine {
     private void loadRectanglesPuzzles() {
         ObservableList<Node> listOfAllElements = ((Pane) loader.getRoot()).getChildren();
         for (Node element : listOfAllElements) {
+            Node a = element;
             if (element != null && element.getId().endsWith("Puzzle")) {
                 Rectangle current = (Rectangle) element;
                 current.setDisable(true);

@@ -22,7 +22,7 @@ public class AppRun extends Application {
                 {"-The way to unlock the door is to know the secret number.", "111", "Do you see something unusual?", "The door is open now.", "/pictures/LibraryWithJoker.jpg", "0"},
                 {"-Does the chessboard reminds you of something?","matrix","[][]","Oh, look it's currently playing!","/pictures/chessboard.jpg", "1"},
                 {"","coffee","It's hot","What could it be??","/pictures/TvPuzzle.png", "1"},
-                {"Who collects the garbage?","garbage collection","Be like Java!! Collect your own garbage.","The second door is open now.","/pictures/Bin.png", "1"}
+                {"Who collects the garbage?","garbage collector","Be like Java!! Collect your own garbage.","The second door is open now.","/pictures/Bin.png", "1"}
 
         };
         PuzzleService puzzleService = new PuzzleServiceImpl();
