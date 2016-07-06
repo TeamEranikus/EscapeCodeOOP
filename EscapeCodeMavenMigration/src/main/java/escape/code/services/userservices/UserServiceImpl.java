@@ -2,6 +2,7 @@ package escape.code.services.userservices;
 
 import escape.code.daos.userdaos.UserDao;
 import escape.code.daos.userdaos.UserDaoImpl;
+import escape.code.enums.Item;
 import escape.code.models.User;
 
 public class UserServiceImpl implements UserService {
@@ -17,8 +18,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setName(username);
         user.setPassword(password);
-        user.setHasBook(false);
-        user.setHasKey(false);
+        user.setItem(Item.NONE);
         user.setLevel(0);
         this.userDao.create(user);
 

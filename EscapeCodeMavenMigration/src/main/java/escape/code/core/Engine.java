@@ -88,7 +88,7 @@ public class Engine {
                 if (hasToSetPuzzle) {
                     hasToSetPuzzle = false;
                     puzzleManager.setPuzzle();
-                    user.setHasBook(true);
+                    //TODO user.setItem(Item item)
                     //TODO pop-up
                 }
                 stageManager.loadNewStage(Constants.PUZZLE_FXML_PATH);

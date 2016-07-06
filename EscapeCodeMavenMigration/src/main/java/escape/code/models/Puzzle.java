@@ -1,5 +1,7 @@
 package escape.code.models;
 
+import escape.code.enums.Item;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ public class Puzzle implements Serializable{
     private String imagePath;
     private String nextClue;
     private int level;
+    private Item item;
 
     public Puzzle(){
 
@@ -84,6 +87,14 @@ public class Puzzle implements Serializable{
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public Item getItem(){
+        return this.item;
+    }
+
+    public void setItem(Item item){
+        this.item = item;
     }
 }
 

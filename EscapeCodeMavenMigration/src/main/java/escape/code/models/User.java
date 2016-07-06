@@ -1,5 +1,7 @@
 package escape.code.models;
 
+import escape.code.enums.Item;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,8 +14,7 @@ public class User implements Serializable{
     private String name;
     private String password;
     private Long id;
-    private boolean hasKey;
-    private boolean hasBook;
+    private Item item;
     private int level;
 
     @Id
@@ -29,20 +30,12 @@ public class User implements Serializable{
         this.id = id;
     }
 
-    public boolean isHasBook() {
-        return hasBook;
+    public Item getItem() {
+        return item;
     }
 
-    public void setHasBook(boolean hasBook) {
-        this.hasBook = hasBook;
-    }
-
-    public boolean isHasKey() {
-        return hasKey;
-    }
-
-    public void setHasKey(boolean hasKey) {
-        this.hasKey = hasKey;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public String getName() {
