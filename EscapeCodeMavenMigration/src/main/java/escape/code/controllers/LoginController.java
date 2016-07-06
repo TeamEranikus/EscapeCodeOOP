@@ -30,8 +30,11 @@ public class LoginController {
     }
 
     public void login(ActionEvent actionEvent) {
+        String userName = this.usernameField.getText();
+        String password = this.passwordField.getText();
         try {
-            this.user = userService.getUser(this.usernameField.getText(), this.passwordField.getText());
+            this.checkForEmptyString(userName, password);
+            this.user = userService.getUser(userName, password);
             Game.setUser(this.user);
             Game.loadMainMenu();
         } catch (IllegalArgumentException exception) {
@@ -41,11 +44,24 @@ public class LoginController {
 
 
     public void register(ActionEvent actionEvent) {
+        String userName = this.usernameField.getText();
+        String password = this.passwordField.getText();
         try {
-            userService.createUser(this.usernameField.getText(), this.passwordField.getText());
+            this.checkForEmptyString(userName, password);
+            userService.createUser(userName, password);
             this.login(actionEvent);
         } catch (IllegalArgumentException ex) {
             this.messageLabel.setText(ex.getMessage());
+        }
+    }
+
+    private void checkForEmptyString(String userName, String password) {
+        if (userName.trim().length() == 0) {
+            throw new IllegalArgumentException("Username cannot be empty!");
+        }
+
+        if (password.trim().length() == 0) {
+            throw new IllegalArgumentException("Password cannot be empty!");
         }
     }
 }

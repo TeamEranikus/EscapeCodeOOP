@@ -7,9 +7,11 @@ import escape.code.services.userservices.UserServiceImpl;
 import escape.code.utils.Constants;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.File;
 
 public class Game {
     private static User user;
@@ -19,6 +21,9 @@ public class Game {
     private static AnimationTimer timeline;
     private static UserService userService;
     private static Stage currentStage;
+
+    private static Media media;
+    private static MediaPlayer mediaPlayer;
 
     public Game(Stage stage) {
         currentStage = stage;
@@ -30,21 +35,22 @@ public class Game {
     public static void run() {
         fxmlLoader = stageManager.loadSceneToPrimaryStage(currentStage, Level.getByNum(user.getLevel()).getPath());
         engine = new Engine(fxmlLoader, user);
+        playAudioClip();
         timeline = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 try {
                     engine.play();
                 } catch (IllegalStateException e) {
-                    //timeline.stop();
-//                   try {
-                        user.setLevel((user.getLevel() + 1)%2);
-                        //TODO pop - up to ask do you want to continue
-                        fxmlLoader = stageManager.loadSceneToPrimaryStage(currentStage,Level.getByNum(user.getLevel()).getPath());
-                        userService.updateUser(user);
-                        engine = new Engine(fxmlLoader,user);
-//                    }
-                }catch (NullPointerException ex) {
+                    mediaPlayer.stop();
+                    user.setLevel((user.getLevel() + 1) % 2);
+                    //TODO pop - up to ask do you want to continue
+                    fxmlLoader = stageManager.loadSceneToPrimaryStage(currentStage, Level.getByNum(user.getLevel()).getPath());
+                    userService.updateUser(user);
+                    engine = new Engine(fxmlLoader, user);
+                    mediaPlayer.play();
+
+                } catch (NullPointerException ex) {
                     timeline.stop();
                 }
             }
@@ -60,7 +66,16 @@ public class Game {
         fxmlLoader = stageManager.loadSceneToPrimaryStage(currentStage, Constants.MENU_FXML_PATH);
     }
 
-    private void login(){
-        fxmlLoader = stageManager.loadSceneToPrimaryStage(currentStage,Constants.LOGIN_FXML_PATH);
+    private void login() {
+        fxmlLoader = stageManager.loadSceneToPrimaryStage(currentStage, Constants.LOGIN_FXML_PATH);
+    }
+
+    private static void playAudioClip() {
+
+          File file = new File(Constants.SOUNDS_PATH);
+        String MEDIA_URL = file.toURI().toString();
+        media = new Media(MEDIA_URL);
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
     }
 }

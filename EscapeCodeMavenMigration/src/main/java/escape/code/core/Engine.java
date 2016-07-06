@@ -10,12 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -36,9 +34,6 @@ public class Engine {
     private FXMLLoader loader;
     private User user;
 
-    private AudioClip iSound0, iSound1, iSound2, iSound3, iSoundBackground;
-
-    private URL iAudioFile0, iAudioFile1, iAudioFile2, iAudioFile3, iAudioFileBackground;
 
     public Engine(FXMLLoader loader, User user) {
         this.loader = loader;
@@ -121,7 +116,6 @@ public class Engine {
             sprite.moveX(-2);
             checkBounds("L");
         }
-        //playAudioClip();
     }
 
     private void checkBounds(String direction) {
@@ -149,11 +143,9 @@ public class Engine {
         return keys.getOrDefault(key, false);
     }
 
-    //TODO union
     private void loadRectanglesPuzzles() {
         ObservableList<Node> listOfAllElements = ((Pane) loader.getRoot()).getChildren();
         for (Node element : listOfAllElements) {
-            Node a = element;
             if (element != null && element.getId().endsWith("Puzzle")) {
                 Rectangle current = (Rectangle) element;
                 current.setDisable(true);
@@ -194,38 +186,5 @@ public class Engine {
         }
         return current.getBoundsInParent().intersects(sprite.getImageView().getBoundsInParent());
     }
-
-    //TODO EXTRACT NEW CLASS AUDIO MANAGER
-    private void playAudioClip() {
-        //loadAudioAssets();
-        if (isPressed(KeyCode.UP)) {
-            iSound2.play();
-        }
-        if (isPressed(KeyCode.DOWN)) {
-            iSound3.play();
-        }
-        if (isPressed(KeyCode.LEFT)) {
-            iSound0.play();
-        }
-        if (isPressed(KeyCode.RIGHT)) {
-            iSound1.play();
-        }
-        iSoundBackground.setVolume(0.05);
-        iSoundBackground.play();
-    }
-
-    private void loadAudioAssets() {
-        iAudioFile0 = getClass().getResource("../data/sounds/leftmono.wav");
-        iSound0 = new AudioClip(iAudioFile0.toString());
-        iAudioFile1 = getClass().getResource("../data/sounds/rightmono.wav");
-        iSound1 = new AudioClip(iAudioFile1.toString());
-        iAudioFile2 = getClass().getResource("../data/sounds/upmono.wav");
-        iSound2 = new AudioClip(iAudioFile2.toString());
-        iAudioFile3 = getClass().getResource("../data/sounds/downmono.wav");
-        iSound3 = new AudioClip(iAudioFile3.toString());
-        iAudioFileBackground = getClass().getResource("../data/sounds/snd_music.mp3");
-        iSoundBackground = new AudioClip(iAudioFileBackground.toString());
-    }
-
 
 }

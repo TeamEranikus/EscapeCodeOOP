@@ -14,4 +14,5 @@ public class Constants {
     public static boolean IS_ANSWER_CORRECT = false;
     public static double FULL_HD_WIDTH = 1920.0D;
     public static double FULL_HD_HIGH = 1080.0D;
+    public static final String SOUNDS_PATH = "target/classes/sounds/snd_music_next.mp3";
 }
