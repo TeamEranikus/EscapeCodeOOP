@@ -75,6 +75,11 @@ public class Engine {
             currentPuzzle.setVisible(false);
             currentPuzzle.setDisable(true);
             rectangles.removeFirst();
+            if (this.rectangles.size() == 1){
+
+                    this.setItemCount("keyOne");
+
+            }
             currentPuzzle = getCurrentPuzzleRectangle();
             Constants.IS_ANSWER_CORRECT = false;
             hasToSetPuzzle = true;
@@ -90,6 +95,7 @@ public class Engine {
                     puzzleManager.setPuzzle();
                     //TODO user.setItem(Item item)
                     //TODO pop-up
+                    this.setItemCount("bookOne");
                 }
                 stageManager.loadNewStage(Constants.PUZZLE_FXML_PATH);
                 keys.clear();
@@ -153,6 +159,7 @@ public class Engine {
                 rectangles.add(current);
             }
         }
+
         rectangles = rectangles.stream()
                 .sorted((a, b) -> a.getId().compareTo(b.getId()))
                 .collect(Collectors.toCollection(LinkedList<Rectangle>::new));
@@ -185,6 +192,16 @@ public class Engine {
             return false;
         }
         return current.getBoundsInParent().intersects(sprite.getImageView().getBoundsInParent());
+    }
+
+    private void setItemCount(String itemName){
+        ObservableList<Node> listOfAllElements = ((Pane) loader.getRoot()).getChildren();
+        for (Node field : listOfAllElements) {
+            if (field.getId().equals(itemName)){
+
+                field.setVisible(true);
+            }
+        }
     }
 
 }
