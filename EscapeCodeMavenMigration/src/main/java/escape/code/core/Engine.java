@@ -180,7 +180,7 @@ public class Engine {
     private Rectangle getCurrentPuzzleRectangle() {
         if (rectangles.size() > 0) {
             Rectangle current = rectangles.peekFirst();
-            current.setVisible(true);
+         //   current.setVisible(true);
             current.setDisable(false);
             return current;
         }
